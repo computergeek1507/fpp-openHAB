@@ -1,0 +1,20 @@
+{
+	"repoName": "fpp-openHAB",
+	"name": "openHAB Plugin for FPP",
+	"author": "Scott Hanson (computergeek1507)",
+	"description": "This plugin Supports Commands to turn on/off switches and bulbs.",
+	"homeURL": "https://github.com/computergeek1507/fpp-openHAB",
+	"srcURL": "https://github.com/computergeek1507/fpp-openHAB.git",
+	"bugURL": "https://github.com/computergeek1507/fpp-openHAB/issues",
+	"allowUpdates": 1,
+	"versions": [
+		{
+			"minFPPVersion": "7.0",
+			"maxFPPVersion": "0",
+			"branch": "main",
+			"sha": "",
+			"dependencies": {
+			}
+		}
+	]
+}
