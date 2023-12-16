@@ -1,1 +1,1 @@
-TPLink Plugin Help Page Placeholder
+openHAB Plugin Help Page Placeholder

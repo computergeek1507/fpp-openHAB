@@ -1,23 +1,8 @@
 #include "openHABLight.h"
 
-#include <stdlib.h>
 #include <cstdint>
 #include <thread>
 #include <cmath>
-
-#include <arpa/inet.h>  // for inet_pton
-#include <netinet/in.h> // for sockaddr_in, htons
-#include <stdint.h>     // for uint16_t, uint8_t, uint32_t
-#include <stdio.h>      // for printf
-#include <sys/socket.h> // for AF_INET, connect, send, socket, SOCK_STREAM
-#include <unistd.h>     // for close, read
-#include <string>       // for string
-#include <cstring>      // for ??? memcpy, memset, strncpy
-
-
-#include <iostream>
-#include <istream>
-#include <ostream>
 
 openHABLight::openHABLight(std::string const& ip, uint16_t port, std::string const& item, unsigned int startChannel) :
     openHABItem(ip,port,item,startChannel),
@@ -112,7 +97,7 @@ void openHABLight::RGBtoHSIV(float fR, float fG, float fB, float& fH, float& fSI
     }
 }
 
-std::string openHABLight::setLightOnRGB( uint8_t r, uint8_t g, uint8_t b, int color_Temp, int period) {
+void openHABLight::setLightOnRGB( uint8_t r, uint8_t g, uint8_t b) {
     float h,si,sv,i,v;
 
     RGBtoHSIV(r/255,g/255,b/255,h,si,sv,i,v);
@@ -122,15 +107,14 @@ std::string openHABLight::setLightOnRGB( uint8_t r, uint8_t g, uint8_t b, int co
     int isv = (sv*100);
     //int ii = (i*100);
     int iv = (v*100);
-    return setLightOnHSV(ih, isv, iv, color_Temp, period);
+    setLightOnHSV(ih, isv, iv);
 }
 
-std::string openHABLight::setLightOnHSV( int hue, int saturation, int brightness, int color_Temp, int period) {
+void openHABLight::setLightOnHSV( int hue, int saturation, int brightness) {
     const std::string cmd =  std::to_string(hue) + "," + std::to_string(saturation) + "," + std::to_string(brightness);
-    return sendCmd(cmd);
+    sendCmd(cmd);
 }
 
-std::string openHABLight::setLightOff(){
-
-    return sendCmd("OFF");
+void openHABLight::setLightOff(){
+    sendCmd("OFF");
 }

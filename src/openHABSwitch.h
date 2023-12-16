@@ -11,8 +11,8 @@ public:
 
     bool SendData( unsigned char *data) override;
 
-    std::string setRelayOn();
-    std::string setRelayOff();
+    void setSwitchOn();
+    void setSwitchOff();
 
     std::string GetType() const override {return "Switch";}
 

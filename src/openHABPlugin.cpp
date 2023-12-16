@@ -18,19 +18,17 @@
 #include <thread>
 #include <cmath>
 
-#include <httpserver.hpp>
 #include "common.h"
 #include "settings.h"
 #include "Plugin.h"
 #include "Plugins.h"
 #include "log.h"
-#include "MultiSync.h"
 
-#if __has_include("channeloutput/ChannelOutputSetup.h")
+//#if __has_include("channeloutput/ChannelOutputSetup.h")
 #include "channeloutput/ChannelOutputSetup.h"
-#elif __has_include("channeloutput/channeloutput.h")
-#include "channeloutput/channeloutput.h"
-#endif
+//#elif __has_include("channeloutput/channeloutput.h")
+//#include "channeloutput/channeloutput.h"
+//#endif
 
 #include "fppversion_defines.h"
 
@@ -40,19 +38,15 @@
 #include "openHABSwitch.h"
 #include "openHABItem.h"
 
-class openHABPlugin : public FPPPlugin, public httpserver::http_resource {
+class openHABPlugin : public FPPPlugin {
 private:
-    //std::vector<std::unique_ptr <TPLinkItem>> _TPLinkOutputs;
-    //Json::Value config;
 
 public:
     openHABPlugin() : FPPPlugin("fpp-openHAB") {
         LogInfo(VB_PLUGIN, "Initializing openHAB Plugin\n");
-        //readFiles();
         registerCommand();
     }
     virtual ~openHABPlugin() {
-        //_TPLinkOutputs.clear();
     }
 
     class openHABSetSwitchCommand : public Command {
@@ -89,7 +83,7 @@ public:
 
     class openHABSetLightRGBCommand : public Command {
     public:
-        openHABSetLightRGBCommand(openHABPlugin *p) : Command("TPLink Set Light RGB"), plugin(p) {
+        openHABSetLightRGBCommand(openHABPlugin *p) : Command("openHAB Set Light RGB"), plugin(p) {
             args.push_back(CommandArg("IP", "string", "openHAB IP Address"));
             args.push_back(CommandArg("port", "int", "Port").setRange(1, 50000).setDefaultValue("8080"));
             args.push_back(CommandArg("item", "string", "openHAB Item"));
@@ -164,16 +158,8 @@ public:
         CommandManager::INSTANCE.addCommand(new openHABSetLightOffCommand(this));
     }
 
-    //virtual const std::shared_ptr<httpserver::http_response> render_GET(const httpserver::http_request &req) override {
-    //    std::string v = getTopics();
-    //    return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(v, 200));
-    //}
-    
-//#if FPP_MAJOR_VERSION < 4 || FPP_MINOR_VERSION < 1
- //   virtual void modifyChannelData(int ms, uint8_t *seqData) override {
-//#else
+
     virtual void modifySequenceData(int ms, uint8_t *seqData) override {
-//#endif
         try
         {
             //sendChannelData(seqData);
@@ -196,9 +182,9 @@ public:
         {
             openHABSwitch openSwitch(ip, port, __item, 1);
             if(state){
-                openSwitch.setRelayOn();
+                openSwitch.setSwitchOn();
             } else{
-                openSwitch.setRelayOff();
+                openSwitch.setSwitchOff();
             }
         };
         if(item.find(",") != std::string::npos) {
@@ -243,7 +229,6 @@ public:
         }
     }
 };
-
 
 extern "C" {
     FPPPlugin *createPlugin() {

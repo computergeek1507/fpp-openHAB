@@ -11,9 +11,9 @@ public:
 
     std::string GetType() const override {return "Light";}
 
-    std::string setLightOnRGB( uint8_t r, uint8_t g, uint8_t b, int color_Temp = 0, int period = 0);
-    std::string setLightOnHSV( int hue, int saturation, int brightness, int color_Temp = 0, int period = 0);
-    std::string setLightOff();
+    void setLightOnRGB( uint8_t r, uint8_t g, uint8_t b);
+    void setLightOnHSV( int hue, int saturation, int brightness);
+    void setLightOff();
 
 private:
     uint8_t m_r;

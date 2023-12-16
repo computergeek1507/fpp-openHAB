@@ -9,25 +9,10 @@
 #include <thread>
 #include <cmath>
 
-#include <arpa/inet.h>  // for inet_pton
-#include <netinet/in.h> // for sockaddr_in, htons
-#include <stdint.h>     // for uint16_t, uint8_t, uint32_t
-#include <stdio.h>      // for printf
-#include <sys/socket.h> // for AF_INET, connect, send, socket, SOCK_STREAM
-#include <unistd.h>     // for close, read
-#include <string>       // for string
-#include <cstring>      // for ??? memcpy, memset, strncpy
-
-
-#include <iostream>
-#include <istream>
-#include <ostream>
-
 openHABSwitch::openHABSwitch(std::string const& ip, uint16_t port, std::string const& item, unsigned int startChannel) :
     openHABItem(ip,port,item,startChannel),
     m_w(0)
 {
-
 }
 
 openHABSwitch::~openHABSwitch() {
@@ -71,17 +56,18 @@ bool openHABSwitch::SendData( unsigned char *data) {
 
 void openHABSwitch::outputData( uint8_t w ) {
     if(w >= 127){
-        setRelayOn();
+        setSwitchOn();
     } else {
-        setRelayOff();
+        setSwitchOff();
     }
 }
-std::string openHABSwitch::setRelayOn() {
-    return sendCmd("ON");
+
+void openHABSwitch::setSwitchOn() {
+    sendCmd("ON");
 }
 
-std::string openHABSwitch::setRelayOff() {
-    return sendCmd("OFF");
+void openHABSwitch::setSwitchOff() {
+    sendCmd("OFF");
 }
 
 

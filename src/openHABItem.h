@@ -23,8 +23,6 @@ public:
 
     virtual std::string GetType() const = 0;
 
-    std::string getInfo();
-
 protected:
     std::string m_ipAddress;
     std::string m_item;
@@ -37,7 +35,7 @@ protected:
 
     CURL *m_curl;
 
-    std::string sendCmd( std::string const& message);
+    void sendCmd( std::string const& message);
 
 private:
 
